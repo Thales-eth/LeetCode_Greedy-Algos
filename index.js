@@ -138,4 +138,70 @@ const numRescueBoats = (people, limit) => {
     }
 
     return boats
-};
+}
+
+// You are given an array people where people[i] is the weight of the ith person, and an infinite number of boats where each boat can carry a maximum weight of limit. Each boat carries at most two people at the same time, provided the sum of the weight of those people is at most limit.
+
+// Return the minimum number of boats to carry every given person.
+
+// Example 1:
+
+// Input: people = [1,2], limit = 3
+// Output: 1
+// Explanation: 1 boat (1, 2)
+
+function numRescueBoats(people, limit) {
+    let left = 0
+    let right = people.length - 1
+    let boats = 0
+    const orderedBoats = people.sort((a, b) => a - b)
+
+    while (left <= right) {
+        if (orderedBoats[left] + orderedBoats[right] <= limit) {
+            left++
+        }
+
+        boats++
+        right--
+    }
+
+    return boats
+}
+
+// You are assigned to put some amount of boxes onto one truck. You are given a 2D array boxTypes, where boxTypes[i] = [numberOfBoxesi, numberOfUnitsPerBoxi]:
+
+// numberOfBoxesi is the number of boxes of type i.
+// numberOfUnitsPerBoxi is the number of units in each box of the type i.
+// You are also given an integer truckSize, which is the maximum number of boxes that can be put on the truck. You can choose any boxes to put on the truck as long as the number of boxes does not exceed truckSize.
+
+// Return the maximum total number of units that can be put on the truck.
+
+// Example 1:
+
+// Input: boxTypes = [[1,3],[2,2],[3,1]], truckSize = 4
+// Output: 8
+// Explanation: There are:
+// - 1 box of the first type that contains 3 units.
+// - 2 boxes of the second type that contain 2 units each.
+// - 3 boxes of the third type that contain 1 unit each.
+// You can take all the boxes of the first and second types, and one box of the third type.
+// The total number of units will be = (1 * 3) + (2 * 2) + (1 * 1) = 8.
+
+function maximumUnits(boxTypes, truckSize) {
+    let boxes = 0
+    let units = 0
+    let index = 0
+
+    const orderedBoxes = boxTypes.sort((a, b) => b[1] - a[1])
+
+    while (boxes < truckSize && index < boxTypes.length) {
+        const element = orderedBoxes[index]
+        for (let i = 0; i < element[0]; i++) {
+            units += element[1]
+            boxes++
+            if (boxes === truckSize) return units
+        }
+        index++
+    }
+    return units
+}
